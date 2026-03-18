@@ -210,19 +210,121 @@ input {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Signature Box */
-.signature-box {
-  width: 100%;
-  max-width: 360px;
-  aspect-ratio: 1 / 1;
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
+/* ── 상단 헤더 영역 ── */
+.header-area {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  width: 100%;
+}
+
+.info-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #8B95A1;
+  transition: all 0.2s;
+}
+
+.info-btn:active {
+  background-color: var(--surface);
+}
+
+.info-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── 결과 화면 전체 영역 ── */
+.result-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 싸인 박스 배경 카드 (그라디언트 배경) */
+.signature-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  background: linear-gradient(145deg, #f0f5ff 0%, #e8f0fe 50%, #f5f0ff 100%);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow:
+    0 2px 4px rgba(49, 130, 246, 0.06),
+    0 12px 40px rgba(49, 130, 246, 0.10);
+}
+
+/* 싸인이 실제 그려지는 흰 박스 */
+.signature-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #ffffff;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   overflow: hidden;
+  box-shadow:
+    0 0 0 1.5px rgba(49, 130, 246, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* 네 모서리 장식 (파란색 L자 꺾쇠) */
+.signature-box::before,
+.signature-box::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(49, 130, 246, 0.45);
+  border-style: solid;
+  pointer-events: none;
+}
+.signature-box::before {
+  top: 10px;
+  left: 10px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+.signature-box::after {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
+}
+
+/* 컨셉 뱃지: 선택한 스타일 표시 */
+.concept-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(49, 130, 246, 0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  letter-spacing: 0.01em;
 }
 
 .signature-text {
@@ -281,3 +383,95 @@ input {
 .font-minimal { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; letter-spacing: 0.2em; }
 .font-handwriting { font-family: 'Nanum Brush Script', cursive; transform: rotate(-5deg); }
 .font-bold { font-family: 'Black Han Sans', sans-serif; transform: skewX(-15deg); }
+
+/* ── Bottom Sheet (Info) ── */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 900;
+}
+
+.bottom-sheet {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background-color: #fff;
+  border-radius: 24px 24px 0 0;
+  z-index: 1000;
+  padding: 24px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sheet-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8B95A1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.sheet-content {
+  overflow-y: auto;
+  max-height: 50vh;
+}
+
+.sheet-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.license-group {
+  margin-bottom: 20px;
+}
+
+.license-group h4 {
+  font-size: 14px;
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.license-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.license-group ul li {
+  margin-bottom: 4px;
+}
+
+.license-group ul li strong {
+  font-weight: 600;
+  color: #333;
+}
+
+.copyright-text {
+  font-size: 12px;
+  color: #B0B8C1;
+  text-align: center;
+  margin-top: 32px;
+}

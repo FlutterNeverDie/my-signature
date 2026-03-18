@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   useSignatureStore,
   KOR_FONTS, EN_FONTS,
@@ -7,6 +7,7 @@ import {
 import { toPng } from 'html-to-image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SignatureCanvas } from './components/SignatureCanvas';
+import { InfoSheet } from './components/InfoSheet';
 
 /** 한글 전용 입력 필터 */
 const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ\s]/g, '');
@@ -20,6 +21,7 @@ function App() {
     setLanguage, setName, setFontId, generate, reset,
   } = useSignatureStore();
   const signatureRef = useRef<HTMLDivElement>(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
   const placeholder = language === 'kor' ? '이름' : '영문 이름';
@@ -68,7 +70,16 @@ function App() {
             transition={{ duration: 0.2 }}
           >
             <div className="content-col">
-              <h1 className="title">내 싸인 만들기</h1>
+              <div className="header-area">
+                <h1 className="title">내 싸인 만들기</h1>
+                <button className="info-btn" onClick={() => setIsInfoOpen(true)} title="앱 정보">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </button>
+              </div>
 
               {/* ── 언어 선택 탭 (영문 / 한글 순서) ── */}
               <div className="lang-tab">
@@ -96,8 +107,8 @@ function App() {
                 />
                 <p className="tip-text">
                   {language === 'kor'
-                    ? '💡 성 없이 이름만(예: 상훈) 입력해 주세요.'
-                    : '💡 영문 이름 또는 닉네임을 입력해 주세요. (예: Sanghoon)'}
+                    ? '💡 성 없이 이름만(예: 길동) 입력해 주세요.'
+                    : '💡 영문 이름 또는 닉네임을 입력해 주세요. (예: Gil Dong)'}
                 </p>
               </div>
 
@@ -142,15 +153,21 @@ function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="content-col">
-              <h1 className="title">나만의 싸인 완성!</h1>
+            <div className="content-col" style={{ alignItems: 'center' }}>
+              <h1 className="title" style={{ width: '100%', textAlign: 'left' }}>나만의 싸인 완성!</h1>
 
-              <div className="signature-box" ref={signatureRef}>
-                <SignatureCanvas
-                  name={name}
-                  fontId={fontId}
-                  language={language}
-                />
+              <div className="result-area">
+                <div className="signature-card" ref={signatureRef}>
+                  
+                  {/* 컨셉 뱃지: 어떤 스타일로 만들어졌는지 표시 */}
+                  <div className="concept-badge">
+                    {fonts.find(f => f.id === fontId)?.label} 스타일
+                  </div>
+
+                  <div className="signature-box">
+                    <SignatureCanvas name={name} fontId={fontId} language={language} />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -165,6 +182,7 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      <InfoSheet isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
     </div>
   );
 }
