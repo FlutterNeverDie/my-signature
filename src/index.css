@@ -1,0 +1,255 @@
+:root {
+  --primary: #3182F6;
+  --primary-hover: #1B64DA;
+  --bg-color: #FFFFFF;
+  --text-primary: #191F28;
+  --text-secondary: #8B95A1;
+  --border-color: #F2F4F6;
+  --surface: #F2F4F6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* html/body/root를 정확히 뷰포트에 꽉 채운다 */
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+#root {
+  height: 100%;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* 
+  핵심 레이아웃: 화면 전체를 flex 컨테이너로 잡고
+  상단 콘텐츠는 flex: 1로 늘어나고
+  하단 버튼은 flex-shrink: 0으로 항상 고정 크기 유지
+*/
+.layout {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* view-container가 남은 공간을 전부 차지하며 내부를 flex column으로 */
+.view-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  /* 내용이 넘칠 경우 스크롤 허용 */
+  overflow-y: auto;
+}
+
+/* 상단 콘텐츠: 남은 공간 모두 차지 */
+.content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 32px;
+  padding-bottom: 24px;
+}
+
+/* 하단 버튼 영역: 절대 줄어들지 않음 */
+.bottom-fixed {
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Typography */
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+  word-break: keep-all;
+}
+
+/* Input Area */
+.input-group {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.name-input {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 16px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.name-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(49, 130, 246, 0.1);
+}
+
+.name-input::placeholder {
+  color: #D1D6DB;
+  font-weight: 700;
+}
+
+.tip-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+/* Toggle */
+.concept-toggle {
+  display: flex;
+  background-color: var(--surface);
+  border-radius: 12px;
+  padding: 4px;
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
+  word-break: keep-all;
+}
+
+.toggle-btn.active {
+  color: var(--text-primary);
+}
+
+.toggle-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Signature Box */
+.signature-box {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1 / 1;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.signature-text {
+  color: #111;
+  white-space: nowrap;
+}
+
+/* 버튼 */
+.btn-primary {
+  width: 100%;
+  padding: 18px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-primary:active {
+  background-color: var(--primary-hover);
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background-color: #E5E8EB;
+  color: #8B95A1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 18px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-secondary:active {
+  background-color: #E5E8EB;
+}
+
+/* Fonts */
+.font-classic { font-family: 'Noto Serif KR', serif; font-style: italic; font-weight: 700; transform: rotate(-5deg); }
+.font-signature { font-family: 'Nanum Pen Script', cursive; transform: rotate(-10deg); }
+.font-minimal { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; letter-spacing: 0.2em; }
+.font-handwriting { font-family: 'Nanum Brush Script', cursive; transform: rotate(-5deg); }
+.font-bold { font-family: 'Black Han Sans', sans-serif; transform: skewX(-15deg); }
