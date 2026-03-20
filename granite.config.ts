@@ -6,7 +6,7 @@ export default defineConfig({
     brand: {
         displayName: '내 싸인 만들기',
         primaryColor: '#3182F6',
-        // icon: 'https://...', // TODO: 해당 앱의 아이콘 URL
+        icon: 'https://static.toss.im/appsintoss/16823/49df371d-b1cd-4514-84f1-a67600c5a6e0.png',
     },
     web: {
         commands: {
@@ -18,4 +18,5 @@ export default defineConfig({
     webViewProps: {
         type: 'partner',
     },
+    permissions: [],
 });

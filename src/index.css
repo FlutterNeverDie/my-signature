@@ -80,15 +80,19 @@ input {
 /* 하단 버튼 영역: 절대 줄어들지 않음 */
 .bottom-fixed {
   flex-shrink: 0;
-  width: 100%;
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-top: 16px;
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 16px 24px max(24px, env(safe-area-inset-bottom)) 24px;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  position: sticky;
+  bottom: -24px;
+  z-index: 10;
 }
 
 /* Typography */

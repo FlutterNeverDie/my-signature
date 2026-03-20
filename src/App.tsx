@@ -8,6 +8,9 @@ import { toPng } from 'html-to-image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SignatureCanvas } from './components/SignatureCanvas';
 import { InfoSheet } from './components/InfoSheet';
+import { useTossInterstitialAd } from './hooks/useTossInterstitialAd';
+import { TossBannerAd } from './components/common/TossBannerAd';
+import { AD_CONFIG } from './constants/adConfig';
 
 /** 한글 전용 입력 필터 */
 const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ\s]/g, '');
@@ -22,6 +25,8 @@ function App() {
   } = useSignatureStore();
   const signatureRef = useRef<HTMLDivElement>(null);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [inputError, setInputError] = useState<string | null>(null);
+  const { showAd } = useTossInterstitialAd();
 
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
   const placeholder = language === 'kor' ? '이름' : '영문 이름';
@@ -29,13 +34,23 @@ function App() {
 
   const handleNameChange = (raw: string) => {
     const filtered = language === 'kor' ? filterKor(raw) : filterEn(raw);
+    
+    // 필터링 전후가 다르면 허용되지 않은 문자가 입력되었다는 뜻
+    if (raw !== filtered) {
+      setInputError(language === 'kor' ? '한글만 입력 가능합니다.' : '영문만 입력 가능합니다.');
+    } else {
+      setInputError(null);
+    }
+    
     setName(filtered.slice(0, maxLen));
   };
 
   const handleGenerate = () => {
     if (name.trim().length > 0) {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
-      generate();
+      showAd(() => {
+        generate();
+      });
     }
   };
 
@@ -87,7 +102,10 @@ function App() {
                   <button
                     key={lang}
                     className={`lang-tab-btn ${language === lang ? 'active' : ''}`}
-                    onClick={() => setLanguage(lang)}
+                    onClick={() => {
+                      setLanguage(lang);
+                      setInputError(null);
+                    }}
                   >
                     {lang === 'kor' ? '한글' : '영문'}
                   </button>
@@ -98,14 +116,26 @@ function App() {
               <div className="input-group">
                 <input
                   key={language} // 언어 바뀌면 input 리셋
-                  className="name-input"
+                  className={`name-input ${inputError ? 'error' : ''}`}
+                  style={inputError ? { borderColor: '#F04438' } : {}}
                   type="text"
                   placeholder={placeholder}
                   maxLength={maxLen}
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
                 />
-                <p className="tip-text">
+                
+                {inputError && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{ color: '#F04438', fontSize: '13px', fontWeight: 600, margin: '2px 0 0 0' }}
+                  >
+                    {inputError}
+                  </motion.p>
+                )}
+
+                <p className="tip-text" style={{ marginTop: '0px' }}>
                   {language === 'kor'
                     ? '💡 성 없이 이름만(예: 길동) 입력해 주세요.'
                     : '💡 영문 이름 또는 닉네임을 입력해 주세요. (예: Gil Dong)'}
@@ -141,6 +171,7 @@ function App() {
               >
                 생성하기
               </button>
+              <TossBannerAd adGroupId={AD_CONFIG.BANNER} variant="expanded" />
             </div>
           </motion.div>
         ) : (
@@ -169,6 +200,8 @@ function App() {
                   </div>
                 </div>
               </div>
+              
+              <TossBannerAd adGroupId={AD_CONFIG.NATIVE_IMAGE} variant="card" />
             </div>
 
             <div className="bottom-fixed">

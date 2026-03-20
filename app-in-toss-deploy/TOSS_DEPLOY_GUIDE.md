@@ -48,13 +48,13 @@ export default defineConfig({
 {
   "scripts": {
     "toss": "npx granite dev",
-    "deploy": "npx granite build && npx ait deploy"
+    "deploy": "npx ait build && npx ait deploy"
   }
 }
 ```
 
 ### 각 명령어 설명:
-- **`npx granite build`**: `granite.config.ts` 설정을 기반으로 웹 프로젝트를 빌드하고, 최종적으로 `<appName>.ait` 번들 파일을 생성합니다.
+- **`npx ait build`**: `granite.config.ts` 설정을 기반으로 웹 프로젝트를 빌드하고, 최종적으로 `<appName>.ait` 번들 파일을 생성합니다.
 - **`npx ait deploy`**: 생성된 `.ait` 파일을 토스 개발자 콘솔로 업로드합니다. 실행 시 최초 1회 로그인이 필요할 수 있습니다.
 
 ## 5. 배포 실행 순서
