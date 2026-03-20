@@ -48,8 +48,14 @@ function App() {
   const handleGenerate = () => {
     if (name.trim().length > 0) {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
+      
+      // 1. 화면을 즉시 '결과 페이지'로 전환합니다.
+      generate();
+      
+      // 2. 결과 페이지 진입과 동시에 그 위에 전면광고를 띄웁니다.
+      // 전면광고가 닫힌 후 추가로 이동할 대상이 없으므로 빈 콜백을 전달합니다.
       showAd(() => {
-        generate();
+        console.log('전면광고 노출 완료');
       });
     }
   };
