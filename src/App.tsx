@@ -36,29 +36,35 @@ function App() {
 
   const handleNameChange = (raw: string) => {
     const filtered = language === 'kor' ? filterKor(raw) : filterEn(raw);
-    
+
     // 필터링 전후가 다르면 허용되지 않은 문자가 입력되었다는 뜻
     if (raw !== filtered) {
       setInputError(language === 'kor' ? '한글만 입력 가능합니다.' : '영문만 입력 가능합니다.');
     } else {
       setInputError(null);
     }
-    
+
     setName(filtered.slice(0, maxLen));
   };
 
   const handleGenerate = () => {
     if (name.trim().length > 0) {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
-      
+
       // 1. 화면을 즉시 '결과 페이지'로 전환합니다.
       generate();
-      
-      // 2. 결과 페이지 진입과 동시에 그 위에 전면광고를 띄웁니다.
-      // 전면광고가 닫힌 후 추가로 이동할 대상이 없으므로 빈 콜백을 전달합니다.
-      showAd(() => {
-        console.log('전면광고 노출 완료');
-      });
+
+      // 2. 로컬 스토리지 애드 카운트 증가 및 체크
+      const storedCount = parseInt(localStorage.getItem('SIGNATURE_AD_COUNT') || '0', 10);
+      const newCount = storedCount + 1;
+      localStorage.setItem('SIGNATURE_AD_COUNT', newCount.toString());
+
+      // 3. 생성 시도 2번에 1번 꼴로 전면광고를 띄웁니다.
+      if (newCount % 2 === 0) {
+        showAd(() => {
+          console.log(`전면광고 노출 완료 (현재 카운트: ${newCount})`);
+        });
+      }
     }
   };
 
@@ -66,16 +72,44 @@ function App() {
     if (!signatureRef.current) return;
     try {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
+
+      // 1. 고화질 투명 배경으로 이미지 추출
       const dataUrl = await toPng(signatureRef.current, {
-        cacheBust: true, pixelRatio: 3, backgroundColor: '#ffffff',
+        cacheBust: false, // iOS 캐시 오류 방지
+        pixelRatio: 3,
+        backgroundColor: 'transparent',
+        skipFonts: true,  // 💡 [핵심] iOS 웹뷰 CORS(오류: object Event) 방지용. 서명은 패스(Path)로 그려지므로 외부 폰트 다운로드가 필요없음.
       });
+
+      // 2. 모바일 웹뷰/앱 환경 대응: Web Share API(네이티브 공유 창) 사용
+      // (토스 인앱 등에서 a 태그 다운로드가 막히는 현상 우회)
+      if (navigator.share) {
+        try {
+          const blob = await (await fetch(dataUrl)).blob();
+          const file = new File([blob], `${name}_싸인.png`, { type: blob.type });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: `${name}님의 싸인`,
+            });
+            return; // 성공 시 종료
+          }
+        } catch (shareErr) {
+          console.warn('Share API Failed or Cancelled:', shareErr);
+          // 취소하거나 에러가 나면 아래 Fallback(다운로드)으로 넘어갑니다.
+        }
+      }
+
+      // 3. Fallback: 기존 PC 브라우저 다운로드 방식
       const link = document.createElement('a');
       link.download = `${name}_싸인.png`;
       link.href = dataUrl;
       link.click();
-    } catch (err) {
+
+    } catch (err: any) {
       console.error(err);
-      alert('이미지 저장에 실패했습니다.');
+      alert(`이미지 저장/공유에 실패했습니다.\r\n사유: ${err.message || String(err)}\r\n(네트워크 문제이거나 인앱 브라우저 보안 이슈일 수 있습니다.)`);
     }
   };
 
@@ -92,41 +126,41 @@ function App() {
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
             <div className="content-col" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <motion.div 
+              <motion.div
                 className="intro-logo-box"
-                initial={{ y: 20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }} 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
-                <img 
-                  src="/fonts/asset/intor.png" 
-                  alt="내 싸인 만들기 아이콘" 
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+                <img
+                  src="/fonts/asset/intor.png"
+                  alt="내 싸인 만들기 아이콘"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </motion.div>
-              
-              <motion.h1 
+
+              <motion.h1
                 className="intro-title"
-                initial={{ y: 20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }} 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 내 싸인 만들기
               </motion.h1>
-              
-              <motion.p 
+
+              <motion.p
                 className="intro-subtitle"
-                initial={{ y: 20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }} 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 내 이름이 멋진 브랜드가 되는 마법<br />단 3초 만에 당신만의 프리미엄 서명을 만드세요.
               </motion.p>
 
-              <motion.div 
+              <motion.div
                 className="intro-features"
-                initial={{ y: 20, opacity: 0 }} 
-                animate={{ y: 0, opacity: 1 }} 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
                 <div className="feature-item">
@@ -152,7 +186,7 @@ function App() {
                 </div>
               </motion.div>
             </div>
-            
+
             <div className="bottom-fixed">
               <button
                 className="btn-primary"
@@ -213,9 +247,9 @@ function App() {
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
                 />
-                
+
                 {inputError && (
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     style={{ color: '#F04438', fontSize: '13px', fontWeight: 600, margin: '2px 0 0 0' }}
@@ -278,7 +312,7 @@ function App() {
 
               <div className="result-area">
                 <div className="signature-card" ref={signatureRef}>
-                  
+
                   {/* 컨셉 뱃지: 어떤 스타일로 만들어졌는지 표시 */}
                   <div className="concept-badge">
                     {fonts.find(f => f.id === fontId)?.label} 스타일
@@ -289,13 +323,13 @@ function App() {
                   </div>
                 </div>
               </div>
-              
+
               <TossBannerAd adGroupId={AD_CONFIG.NATIVE_IMAGE} variant="card" />
             </div>
 
             <div className="bottom-fixed">
               <button className="btn-primary" onClick={handleSave}>
-                이미지 저장하기
+                공유하기
               </button>
               <button className="btn-secondary" onClick={reset}>
                 다시 만들기
