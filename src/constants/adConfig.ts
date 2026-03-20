@@ -10,19 +10,19 @@ export const AD_CONFIG = {
    * 전면 광고: 페이지 전환용
    * 현재 사용처: 싸인 생성 버튼 클릭 시
    */
-  INTERSTITIAL: 'ait-ad-test-interstitial-id',
+  INTERSTITIAL: 'ait.v2.live.4c7e9d7a569b4472',
 
   /**
    * 리스트형 배너: 하단 및 리스트 중간용 (높이 96px 권장)
    * 현재 사용처: 첫 화면 하단 고정 배너
    */
-  BANNER: 'ait-ad-test-banner-id',
+  BANNER: 'ait.v2.live.557cc5e9c7f9426f',
 
   /**
    * 피드형 배너: 이미지 강조형 배너 (높이 410px 권장)
    * 현재 사용처: 결과 화면 완성된 카드와 하단 버튼 사이
    */
-  NATIVE_IMAGE: 'ait-ad-test-native-image-id',
+  NATIVE_IMAGE: 'ait.v2.live.690a70b8f7574d55',
 
   /**
    * 리워드 광고: 유저가 직접 시청하고 보상을 받는 구조
