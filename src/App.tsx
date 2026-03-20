@@ -6,6 +6,7 @@ import {
 } from './store';
 import { toPng } from 'html-to-image';
 import { AnimatePresence, motion } from 'framer-motion';
+import { PenTool, Zap, Sparkles } from 'lucide-react';
 import { SignatureCanvas } from './components/SignatureCanvas';
 import { InfoSheet } from './components/InfoSheet';
 import { useTossInterstitialAd } from './hooks/useTossInterstitialAd';
@@ -26,6 +27,7 @@ function App() {
   const signatureRef = useRef<HTMLDivElement>(null);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
+  const [isIntro, setIsIntro] = useState(true);
   const { showAd } = useTossInterstitialAd();
 
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
@@ -80,7 +82,88 @@ function App() {
   return (
     <div className="layout" style={{ height: '100%' }}>
       <AnimatePresence mode="wait" initial={false}>
-        {!isGenerated ? (
+        {isIntro ? (
+          <motion.div
+            key="intro-view"
+            className="view-container intro-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <div className="content-col" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <motion.div 
+                className="intro-logo-box"
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.1, duration: 0.5 }}
+              >
+                <img 
+                  src="/fonts/asset/intor.png" 
+                  alt="내 싸인 만들기 아이콘" 
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+                />
+              </motion.div>
+              
+              <motion.h1 
+                className="intro-title"
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                내 싸인 만들기
+              </motion.h1>
+              
+              <motion.p 
+                className="intro-subtitle"
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                내 이름이 멋진 브랜드가 되는 마법<br />단 3초 만에 당신만의 프리미엄 서명을 만드세요.
+              </motion.p>
+
+              <motion.div 
+                className="intro-features"
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <div className="feature-item">
+                  <div className="feature-icon bg-blue"><PenTool size={20} className="text-blue" /></div>
+                  <div className="feature-text">
+                    <strong>다양한 컨셉 폰트</strong>
+                    <span>캘리그라피부터 정갈한 필기체까지</span>
+                  </div>
+                </div>
+                <div className="feature-item">
+                  <div className="feature-icon bg-purple"><Zap size={20} className="text-purple" /></div>
+                  <div className="feature-text">
+                    <strong>초고속 즉석 변환</strong>
+                    <span>입력과 동시에 완성되는 마일스톤</span>
+                  </div>
+                </div>
+                <div className="feature-item">
+                  <div className="feature-icon bg-pink"><Sparkles size={20} className="text-pink" /></div>
+                  <div className="feature-text">
+                    <strong>고화질 투명 이미지</strong>
+                    <span>어디서나 활용 가능한 배경 투명 PNG</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+            
+            <div className="bottom-fixed">
+              <button
+                className="btn-primary"
+                onClick={() => setIsIntro(false)}
+              >
+                무료로 시작하기
+              </button>
+              <TossBannerAd adGroupId={AD_CONFIG.BANNER} variant="expanded" />
+            </div>
+          </motion.div>
+        ) : !isGenerated ? (
           <motion.div
             key="input-view"
             className="view-container"

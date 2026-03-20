@@ -479,3 +479,96 @@ input {
   text-align: center;
   margin-top: 32px;
 }
+
+/* ── 프리미엄 인트로 화면 (UI/UX Pro Max) ── */
+.intro-view {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(235, 244, 255, 0.5) 0%, rgba(255, 255, 255, 1) 100%);
+  padding-top: max(40px, env(safe-area-inset-top));
+}
+
+.intro-logo-box {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.intro-title {
+  font-size: 34px !important;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #0F172A 0%, #334155 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px !important;
+}
+
+.intro-subtitle {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 40px;
+  word-break: keep-all;
+}
+
+.intro-features {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 340px;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+}
+
+.feature-text strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.feature-text span {
+  font-size: 13px;
+  color: #64748B;
+}
+
+/* 컬러 유틸리티 (Lucide 적용용) */
+.bg-blue { background-color: #EFF6FF; }
+.text-blue { color: #3B82F6; }
+.bg-purple { background-color: #FAF5FF; }
+.text-purple { color: #A855F7; }
+.bg-pink { background-color: #FDF2F8; }
+.text-pink { color: #EC4899; }
