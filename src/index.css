@@ -1,3 +1,12 @@
+/* ── 서명 애니메이션 ── */
+@keyframes sig-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes sig-glow-fade {
+  0%   { opacity: 0.22; }
+  100% { opacity: 0; }
+}
+
 :root {
   --primary: #3182F6;
   --primary-hover: #1B64DA;
