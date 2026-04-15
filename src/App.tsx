@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
   useSignatureStore,
   KOR_FONTS, EN_FONTS,
@@ -30,6 +30,13 @@ function App() {
   const [isIntro, setIsIntro] = useState(true);
   const { showAd } = useTossInterstitialAd();
 
+  // Input 화면 진입 시 광고 미리 로드
+  useEffect(() => {
+    if (!isIntro && !isGenerated) {
+      preload();
+    }
+  }, [isIntro, isGenerated, preload]);
+
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
   const placeholder = language === 'kor' ? '이름' : '영문 이름';
   const maxLen = language === 'kor' ? 4 : 15;
@@ -51,12 +58,9 @@ function App() {
     if (name.trim().length > 0) {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
 
-      // 1. 화면을 즉시 '결과 페이지'로 전환합니다.
-      generate();
-
-      // 2. 생성 시도마다 전면광고를 띄웁니다.
+      // 전면광고 노출 후 결과 페이지로 전환합니다.
       showAd(() => {
-        console.log('전면광고 노출 완료');
+        generate();
       });
     }
   };
