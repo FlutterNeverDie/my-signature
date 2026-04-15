@@ -366,8 +366,8 @@ input {
 .btn-secondary {
   width: 100%;
   padding: 18px;
-  background-color: transparent;
-  color: var(--text-secondary);
+  background-color: #E5E8EB;
+  color: #191F28;
   border-radius: 16px;
   font-size: 17px;
   font-weight: 500;
@@ -375,12 +375,12 @@ input {
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  border: 1.5px solid #E5E8EB;
+  border: 1.5px solid #D1D6DB;
 }
 
 .btn-secondary:active {
-  background-color: #F2F4F6;
-  border-color: #D1D6DB;
+  background-color: #C9CDD2;
+  border-color: #B0B8C1;
 }
 
 /* Fonts */
