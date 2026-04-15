@@ -239,6 +239,7 @@ function App() {
                   className={`name-input ${inputError ? 'error' : ''}`}
                   style={inputError ? { borderColor: '#F04438' } : {}}
                   type="text"
+                  autoCapitalize="none"
                   placeholder={placeholder}
                   maxLength={maxLen}
                   value={name}
