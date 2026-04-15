@@ -28,7 +28,7 @@ function App() {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
   const [isIntro, setIsIntro] = useState(true);
-  const { showAd } = useTossInterstitialAd();
+  const { preload, showAd } = useTossInterstitialAd();
 
   // Input 화면 진입 시 광고 미리 로드
   useEffect(() => {
