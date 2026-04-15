@@ -36,9 +36,20 @@ function RecommendFontButton({
     setOpen((v) => {
       const next = !v;
       if (next) {
-        // 피커가 열릴 때 살짝 스크롤
         setTimeout(() => {
-          pickerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          if (!pickerRef.current) return;
+          const scrollContainer = pickerRef.current.closest('.view-container');
+          const bottomNav = scrollContainer?.querySelector('.bottom-fixed')
+            ?? document.querySelector('.bottom-fixed');
+          if (!scrollContainer || !bottomNav) return;
+
+          const pickerBottom  = pickerRef.current.getBoundingClientRect().bottom;
+          const navTop        = bottomNav.getBoundingClientRect().top;
+          const overlap       = pickerBottom - navTop + 12; // 12px 여유
+
+          if (overlap > 0) {
+            scrollContainer.scrollBy({ top: overlap, behavior: 'smooth' });
+          }
         }, 50);
       }
       return next;
