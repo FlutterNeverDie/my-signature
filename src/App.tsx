@@ -14,10 +14,10 @@ import { TossBannerAd } from './components/common/TossBannerAd';
 import { AD_CONFIG } from './constants/adConfig';
 
 /** 한글 전용 입력 필터 */
-const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ\s]/g, '');
+const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ0-9\s]/g, '');
 
 /** 영문 전용 입력 필터 */
-const filterEn = (val: string) => val.replace(/[^a-zA-Z\s'-]/g, '');
+const filterEn = (val: string) => val.replace(/[^a-zA-Z0-9\s'-]/g, '');
 
 function App() {
   const {
@@ -60,6 +60,7 @@ function App() {
 
       // 전면광고 노출 후 결과 페이지로 전환합니다.
       showAd(() => {
+        setName('');
         generate();
       });
     }
