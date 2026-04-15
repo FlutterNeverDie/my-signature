@@ -392,6 +392,57 @@ input {
   border-color: #B0B8C1;
 }
 
+/* 추천 폰트 버튼 */
+.btn-recommend {
+  width: 100%;
+  padding: 14px;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1.5px dashed var(--primary);
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-recommend:active {
+  background-color: #EFF6FF;
+}
+
+.btn-recommend:disabled {
+  color: #8B95A1;
+  border-color: #D1D6DB;
+  border-style: dashed;
+}
+
+/* 폰트 피커 */
+.font-picker {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.font-picker-item {
+  flex: 1;
+  padding: 12px 4px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.font-picker-item:active {
+  background-color: #D1D6DB;
+  transform: scale(0.97);
+}
+
 /* Fonts */
 .font-classic { font-family: 'Noto Serif KR', serif; font-style: italic; font-weight: 700; transform: rotate(-5deg); }
 .font-signature { font-family: 'Nanum Pen Script', cursive; transform: rotate(-10deg); }

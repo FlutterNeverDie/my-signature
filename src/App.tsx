@@ -14,6 +14,58 @@ import { preloadFonts } from './hooks/useSignaturePath';
 import { TossBannerAd } from './components/common/TossBannerAd';
 import { AD_CONFIG } from './constants/adConfig';
 
+/** 다른 스타일 선택 피커 */
+function RecommendFontButton({
+  fonts, currentFontId, onSelect, disabled,
+}: {
+  fonts: { id: string; label: string }[];
+  currentFontId: string;
+  onSelect: (id: string) => void;
+  disabled: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const others = fonts.filter((f) => f.id !== currentFontId);
+
+  const handlePick = (id: string) => {
+    setOpen(false);
+    onSelect(id);
+  };
+
+  return (
+    <div style={{ width: '100%' }}>
+      <button
+        className="btn-recommend"
+        onClick={() => setOpen((v) => !v)}
+        disabled={disabled}
+      >
+        {disabled ? '광고 준비 중...' : '다른 스타일 확인하기'}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="font-picker"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+          >
+            {others.map((f) => (
+              <button
+                key={f.id}
+                className="font-picker-item"
+                onClick={() => handlePick(f.id)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /** 한글 전용 입력 필터 */
 const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ0-9\s]/g, '');
 
@@ -319,17 +371,28 @@ function App() {
 
               <div className="result-area">
                 <div className="signature-card" ref={signatureRef}>
-
-                  {/* 컨셉 뱃지: 어떤 스타일로 만들어졌는지 표시 */}
                   <div className="concept-badge">
                     앱인토스 - 내 싸인 만들기
                   </div>
-
                   <div className="signature-box">
                     <SignatureCanvas name={name} fontId={fontId} language={language} />
                   </div>
                 </div>
               </div>
+
+              {/* 추천 폰트 전환 (광고 시청 후 적용) */}
+              <RecommendFontButton
+                fonts={fonts}
+                currentFontId={fontId}
+                onSelect={(nextId) => {
+                  setIsGenerating(true);
+                  showAd(() => {
+                    setFontId(nextId as FontId);
+                    setIsGenerating(false);
+                  });
+                }}
+                disabled={isGenerating}
+              />
 
               <TossBannerAd adGroupId={AD_CONFIG.NATIVE_IMAGE} variant="card" />
             </div>
