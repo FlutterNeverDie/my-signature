@@ -54,17 +54,10 @@ function App() {
       // 1. 화면을 즉시 '결과 페이지'로 전환합니다.
       generate();
 
-      // 2. 로컬 스토리지 애드 카운트 증가 및 체크
-      const storedCount = parseInt(localStorage.getItem('SIGNATURE_AD_COUNT') || '0', 10);
-      const newCount = storedCount + 1;
-      localStorage.setItem('SIGNATURE_AD_COUNT', newCount.toString());
-
-      // 3. 생성 시도 2번에 1번 꼴로 전면광고를 띄웁니다.
-      if (newCount % 2 === 0) {
-        showAd(() => {
-          console.log(`전면광고 노출 완료 (현재 카운트: ${newCount})`);
-        });
-      }
+      // 2. 생성 시도마다 전면광고를 띄웁니다.
+      showAd(() => {
+        console.log('전면광고 노출 완료');
+      });
     }
   };
 
