@@ -317,7 +317,7 @@ function App() {
 
                   {/* 컨셉 뱃지: 어떤 스타일로 만들어졌는지 표시 */}
                   <div className="concept-badge">
-                    {fonts.find(f => f.id === fontId)?.label} 스타일
+                    앱인토스 - 내 싸인 만들기
                   </div>
 
                   <div className="signature-box">
