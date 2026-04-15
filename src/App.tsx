@@ -24,6 +24,7 @@ function RecommendFontButton({
   disabled: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const pickerRef = useRef<HTMLDivElement>(null);
   const others = fonts.filter((f) => f.id !== currentFontId);
 
   const handlePick = (id: string) => {
@@ -31,11 +32,24 @@ function RecommendFontButton({
     onSelect(id);
   };
 
+  const handleToggle = () => {
+    setOpen((v) => {
+      const next = !v;
+      if (next) {
+        // 피커가 열릴 때 살짝 스크롤
+        setTimeout(() => {
+          pickerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+      return next;
+    });
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <button
         className="btn-recommend"
-        onClick={() => setOpen((v) => !v)}
+        onClick={handleToggle}
         disabled={disabled}
       >
         {disabled ? '광고 준비 중...' : '다른 스타일 확인하기'}
@@ -44,21 +58,24 @@ function RecommendFontButton({
       <AnimatePresence>
         {open && (
           <motion.div
-            className="font-picker"
+            ref={pickerRef}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
           >
-            {others.map((f) => (
-              <button
-                key={f.id}
-                className="font-picker-item"
-                onClick={() => handlePick(f.id)}
-              >
-                {f.label}
-              </button>
-            ))}
+            <div className="font-picker">
+              {others.map((f) => (
+                <button
+                  key={f.id}
+                  className="font-picker-item"
+                  onClick={() => handlePick(f.id)}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+            <p className="font-picker-notice">광고 시청 후 선택한 스타일로 변경됩니다</p>
           </motion.div>
         )}
       </AnimatePresence>
