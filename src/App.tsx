@@ -10,6 +10,7 @@ import { PenTool, Zap, Sparkles } from 'lucide-react';
 import { SignatureCanvas } from './components/SignatureCanvas';
 import { InfoSheet } from './components/InfoSheet';
 import { useTossInterstitialAd } from './hooks/useTossInterstitialAd';
+import { preloadFonts } from './hooks/useSignaturePath';
 import { TossBannerAd } from './components/common/TossBannerAd';
 import { AD_CONFIG } from './constants/adConfig';
 
@@ -31,16 +32,19 @@ function App() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { preload, showAd } = useTossInterstitialAd();
 
-  // Input 화면 진입 시 광고 미리 로드
-  useEffect(() => {
-    if (!isIntro && !isGenerated) {
-      preload();
-    }
-  }, [isIntro, isGenerated, preload]);
-
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
   const placeholder = language === 'kor' ? '이름' : '영문 이름';
   const maxLen = language === 'kor' ? 4 : 15;
+
+  // Input 화면 진입 시 광고 + 현재 언어 폰트 전체 미리 로드
+  useEffect(() => {
+    if (!isIntro && !isGenerated) {
+      preload();
+      const fontBase = language === 'kor' ? '/fonts/kor' : '/fonts/en';
+      const urls = fonts.map((f) => `${fontBase}/${f.file}`);
+      preloadFonts(urls);
+    }
+  }, [isIntro, isGenerated, preload, language, fonts]);
 
   const handleNameChange = (raw: string) => {
     const filtered = language === 'kor' ? filterKor(raw) : filterEn(raw);
@@ -248,6 +252,7 @@ function App() {
                   maxLength={maxLen}
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                 />
 
                 {inputError && (

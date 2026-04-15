@@ -4,11 +4,18 @@ import opentype from 'opentype.js';
 // 폰트 파일 캐시 (같은 폰트 반복 로드 방지)
 const fontCache = new Map<string, opentype.Font>();
 
-async function loadFont(url: string): Promise<opentype.Font> {
+export async function loadFont(url: string): Promise<opentype.Font> {
   if (fontCache.has(url)) return fontCache.get(url)!;
   const font = await opentype.load(url);
   fontCache.set(url, font);
   return font;
+}
+
+/** 폰트 URL 목록을 백그라운드에서 미리 로드해 캐시에 저장 */
+export function preloadFonts(urls: string[]): void {
+  urls.forEach((url) => {
+    if (!fontCache.has(url)) loadFont(url).catch(() => {});
+  });
 }
 
 export interface SignaturePathResult {
