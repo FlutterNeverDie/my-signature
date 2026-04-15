@@ -55,5 +55,5 @@ export const useSignatureStore = create<SignatureState>((set) => ({
   setName: (name) => set({ name }),
   setFontId: (fontId) => set({ fontId }),
   generate: () => set({ isGenerated: true }),
-  reset: () => set({ isGenerated: false }),
+  reset: () => set({ isGenerated: false, name: '' }),
 }));

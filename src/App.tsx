@@ -28,6 +28,7 @@ function App() {
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [inputError, setInputError] = useState<string | null>(null);
   const [isIntro, setIsIntro] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
   const { preload, showAd } = useTossInterstitialAd();
 
   // Input 화면 진입 시 광고 미리 로드
@@ -59,8 +60,9 @@ function App() {
       if (window.navigator?.vibrate) window.navigator.vibrate(50);
 
       // 전면광고 노출 후 결과 페이지로 전환합니다.
+      setIsGenerating(true);
       showAd(() => {
-        setName('');
+        setIsGenerating(false);
         generate();
       });
     }
@@ -241,6 +243,7 @@ function App() {
                   style={inputError ? { borderColor: '#F04438' } : {}}
                   type="text"
                   autoCapitalize="none"
+                  lang={language === 'en' ? 'en' : 'ko'}
                   placeholder={placeholder}
                   maxLength={maxLen}
                   value={name}
@@ -288,10 +291,10 @@ function App() {
             <div className="bottom-fixed">
               <button
                 className="btn-primary"
-                disabled={name.trim().length === 0}
+                disabled={name.trim().length === 0 || isGenerating}
                 onClick={handleGenerate}
               >
-                생성하기
+                {isGenerating ? '광고 준비 중...' : '생성하기'}
               </button>
               <TossBannerAd adGroupId={AD_CONFIG.BANNER} variant="expanded" />
             </div>
