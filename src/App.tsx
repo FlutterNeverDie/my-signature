@@ -325,11 +325,11 @@ function App() {
             </div>
 
             <div className="bottom-fixed">
-              <button className="btn-primary" onClick={handleSave}>
-                공유하기
-              </button>
               <button className="btn-secondary" onClick={reset}>
                 다시 만들기
+              </button>
+              <button className="btn-primary" onClick={handleSave}>
+                공유하기
               </button>
             </div>
           </motion.div>

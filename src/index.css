@@ -366,19 +366,21 @@ input {
 .btn-secondary {
   width: 100%;
   padding: 18px;
-  background-color: var(--surface);
-  color: var(--text-primary);
+  background-color: transparent;
+  color: var(--text-secondary);
   border-radius: 16px;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
+  border: 1.5px solid #E5E8EB;
 }
 
 .btn-secondary:active {
-  background-color: #E5E8EB;
+  background-color: #F2F4F6;
+  border-color: #D1D6DB;
 }
 
 /* Fonts */
