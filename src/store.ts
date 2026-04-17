@@ -12,17 +12,17 @@ export interface FontOption {
 }
 
 export const KOR_FONTS: FontOption[] = [
-  { id: 'samulnori', label: '생동감',  file: 'CallifontSamulnori-Medium.ttf' }, // Lively
-  { id: 'haengbok',  label: '따뜻한',  file: 'HaengbokGoheung.ttf' },           // Warm
-  { id: 'shin',      label: '깔끔한',  file: 'SSShinRegular.ttf' },             // Clean
-  { id: 'younah',    label: '감성적',  file: 'The_Tuesday_of_Younah.ttf' },     // Dreamy
+  { id: 'samulnori', label: '아이코닉',  file: 'CallifontSamulnori-Medium.ttf' },
+  { id: 'haengbok',  label: '휴머니스트',  file: 'HaengbokGoheung.ttf' },
+  { id: 'shin',      label: '프로페셔널',  file: 'SSShinRegular.ttf' },
+  { id: 'younah',    label: '아티스트',  file: 'The_Tuesday_of_Younah.ttf' },
 ];
 
 export const EN_FONTS: FontOption[] = [
-  { id: 'quentin',    label: '강렬한',  file: 'Quentin.otf' }, // Bold
-  { id: 'dancing',    label: '우아한',  file: 'DancingScript-VariableFont_wght.ttf' }, // Elegant
-  { id: 'nickainley', label: '포근한',  file: 'Nickainley-Normal.otf' },               // Cozy
-  { id: 'parisienne', label: '화려한',  file: 'Parisienne-Regular.ttf' },              // Fancy
+  { id: 'quentin',    label: 'CEO',  file: 'Quentin.otf' },
+  { id: 'dancing',    label: 'Artist',  file: 'DancingScript-VariableFont_wght.ttf' },
+  { id: 'nickainley', label: 'Editor',  file: 'Nickainley-Normal.otf' },
+  { id: 'parisienne', label: 'Dreamer',  file: 'Parisienne-Regular.ttf' },
 ];
 
 interface SignatureState {
