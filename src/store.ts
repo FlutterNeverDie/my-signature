@@ -19,10 +19,10 @@ export const KOR_FONTS: FontOption[] = [
 ];
 
 export const EN_FONTS: FontOption[] = [
+  { id: 'quentin',    label: '강렬한',  file: 'Quentin.otf' }, // Bold
   { id: 'dancing',    label: '우아한',  file: 'DancingScript-VariableFont_wght.ttf' }, // Elegant
   { id: 'nickainley', label: '포근한',  file: 'Nickainley-Normal.otf' },               // Cozy
   { id: 'parisienne', label: '화려한',  file: 'Parisienne-Regular.ttf' },              // Fancy
-  { id: 'quentin',    label: '강렬한',  file: 'Quentin.otf' },                         // Bold
 ];
 
 interface SignatureState {
@@ -41,7 +41,7 @@ interface SignatureState {
 export const useSignatureStore = create<SignatureState>((set) => ({
   language: 'en',
   name: '',
-  fontId: 'dancing',
+  fontId: 'quentin',
   isGenerated: false,
 
   // 언어 전환 시 이름·폰트 초기화
@@ -49,7 +49,7 @@ export const useSignatureStore = create<SignatureState>((set) => ({
     set({
       language,
       name: '',
-      fontId: language === 'kor' ? 'samulnori' : 'dancing',
+      fontId: language === 'kor' ? 'samulnori' : 'quentin',
     }),
 
   setName: (name) => set({ name }),

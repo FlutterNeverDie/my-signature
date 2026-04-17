@@ -382,15 +382,18 @@ function App() {
                     left: `${(fonts.findIndex((f) => f.id === fontId) / fonts.length) * 100}%`,
                   }}
                 />
-                {fonts.map((f) => (
-                  <button
-                    key={f.id}
-                    className={`toggle-btn ${fontId === f.id ? 'active' : ''}`}
-                    onClick={() => setFontId(f.id as FontId)}
-                  >
-                    {f.label}
-                  </button>
-                ))}
+                {fonts.map((f) => {
+                  const isBest = (language === 'kor' && f.id === 'samulnori') || (language === 'en' && f.id === 'quentin');
+                  return (
+                    <button
+                      key={f.id}
+                      className={`toggle-btn ${fontId === f.id ? 'active' : ''}`}
+                      onClick={() => setFontId(f.id as FontId)}
+                    >
+                      {f.label}{isBest ? ' 🔥' : ''}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
