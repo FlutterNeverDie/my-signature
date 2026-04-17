@@ -100,6 +100,9 @@ const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ0-9\s]/g,
 /** 영문 전용 입력 필터 */
 const filterEn = (val: string) => val.replace(/[^a-zA-Z0-9\s'-]/g, '');
 
+const KOR_PRESETS = ['김', '이', '박'];
+const EN_PRESETS = ['Lee', 'Kim', 'Park', 'James'];
+
 function App() {
   const {
     language, name, fontId, isGenerated,
@@ -113,7 +116,8 @@ function App() {
   const { preload, showAd } = useTossInterstitialAd();
 
   const fonts = language === 'kor' ? KOR_FONTS : EN_FONTS;
-  const placeholder = language === 'kor' ? '이름' : '영문 이름';
+  const placeholder = language === 'kor' ? '이름 또는 성 입력' : 'Name or Surname';
+  const presets = language === 'kor' ? KOR_PRESETS : EN_PRESETS;
   const maxLen = language === 'kor' ? 4 : 15;
 
   // Input 화면 진입 시 광고 + 현재 언어 폰트 전체 미리 로드
@@ -137,6 +141,11 @@ function App() {
     }
 
     setName(filtered.slice(0, maxLen));
+  };
+
+  const handlePresetClick = (val: string) => {
+    if (window.navigator?.vibrate) window.navigator.vibrate(50);
+    setName(val);
   };
 
   const handleGenerate = () => {
@@ -345,10 +354,22 @@ function App() {
                   </motion.p>
                 )}
 
-                <p className="tip-text" style={{ marginTop: '0px' }}>
+                <div className="preset-group">
+                  {presets.map((p) => (
+                    <button
+                      key={p}
+                      className="preset-chip"
+                      onClick={() => handlePresetClick(p)}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+
+                <p className="tip-text" style={{ marginTop: '4px' }}>
                   {language === 'kor'
-                    ? '💡 성 없이 이름만(예: 길동) 입력해 주세요.'
-                    : '💡 영문 이름 또는 닉네임을 입력해 주세요. (예: Gil Dong)'}
+                    ? '💡 성만 입력(예: 김, 이)하거나 \'성+이름\'을 모두 넣으면 밸런스가 좋습니다.'
+                    : '💡 성(예: Lee, Kim) 위주로 입력하시거나 짧은 닉네임을 사용하면 가장 예쁘게 완성됩니다.'}
                 </p>
               </div>
 

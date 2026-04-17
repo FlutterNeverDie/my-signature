@@ -156,6 +156,33 @@ input {
   word-break: keep-all;
 }
 
+/* ── 추천 프리셋 칩 ── */
+.preset-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.preset-chip {
+  padding: 6px 12px;
+  background-color: var(--surface);
+  color: #4E5968;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.preset-chip:active {
+  background-color: #E5E8EB;
+  transform: scale(0.95);
+  border-color: #D1D6DB;
+}
+
 /* Toggle */
 /* 언어 선택 탭 (한글 / 영문) */
 .lang-tab {
