@@ -94,8 +94,8 @@ function RecommendFontButton({
   );
 }
 
-/** 한글 전용 입력 필터 */
-const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣ0-9\s]/g, '');
+/** 한글 전용 입력 필터 (천지인 아래아 ㆍ, ᆞ, ᆢ, · 포함) */
+const filterKor = (val: string) => val.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣㆍᆞᆢ·0-9\s]/g, '');
 
 /** 영문 전용 입력 필터 */
 const filterEn = (val: string) => val.replace(/[^a-zA-Z0-9\s'-]/g, '');
