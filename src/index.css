@@ -1,10 +1,18 @@
 /* ── 서명 애니메이션 ── */
 @keyframes sig-draw {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
+
 @keyframes sig-glow-fade {
-  0%   { opacity: 0.22; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0.22;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 :root {
@@ -28,6 +36,7 @@
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   font-family: 'Noto Sans KR', sans-serif;
@@ -35,6 +44,7 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
 }
+
 #root {
   height: 100%;
 }
@@ -95,7 +105,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 24px max(24px, env(safe-area-inset-bottom)) 24px;
+  padding: 16px 24px env(safe-area-inset-bottom) 24px;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -339,12 +349,14 @@ input {
   border-style: solid;
   pointer-events: none;
 }
+
 .signature-box::before {
   top: 10px;
   left: 10px;
   border-width: 2px 0 0 2px;
   border-radius: 4px 0 0 0;
 }
+
 .signature-box::after {
   bottom: 10px;
   right: 10px;
@@ -478,23 +490,50 @@ input {
 }
 
 /* Fonts */
-.font-classic { font-family: 'Noto Serif KR', serif; font-style: italic; font-weight: 700; transform: rotate(-5deg); }
-.font-signature { font-family: 'Nanum Pen Script', cursive; transform: rotate(-10deg); }
-.font-minimal { font-family: 'Noto Sans KR', sans-serif; font-weight: 300; letter-spacing: 0.2em; }
-.font-handwriting { font-family: 'Nanum Brush Script', cursive; transform: rotate(-5deg); }
-.font-bold { font-family: 'Black Han Sans', sans-serif; transform: skewX(-15deg); }
+.font-classic {
+  font-family: 'Noto Serif KR', serif;
+  font-style: italic;
+  font-weight: 700;
+  transform: rotate(-5deg);
+}
+
+.font-signature {
+  font-family: 'Nanum Pen Script', cursive;
+  transform: rotate(-10deg);
+}
+
+.font-minimal {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+}
+
+.font-handwriting {
+  font-family: 'Nanum Brush Script', cursive;
+  transform: rotate(-5deg);
+}
+
+.font-bold {
+  font-family: 'Black Han Sans', sans-serif;
+  transform: skewX(-15deg);
+}
 
 /* ── Bottom Sheet (Info) ── */
 .overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 900;
 }
 
 .bottom-sheet {
   position: fixed;
-  left: 0; right: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #fff;
   border-radius: 24px 24px 0 0;
   z-index: 1000;
@@ -662,9 +701,26 @@ input {
 }
 
 /* 컬러 유틸리티 (Lucide 적용용) */
-.bg-blue { background-color: #EFF6FF; }
-.text-blue { color: #3B82F6; }
-.bg-purple { background-color: #FAF5FF; }
-.text-purple { color: #A855F7; }
-.bg-pink { background-color: #FDF2F8; }
-.text-pink { color: #EC4899; }
+.bg-blue {
+  background-color: #EFF6FF;
+}
+
+.text-blue {
+  color: #3B82F6;
+}
+
+.bg-purple {
+  background-color: #FAF5FF;
+}
+
+.text-purple {
+  color: #A855F7;
+}
+
+.bg-pink {
+  background-color: #FDF2F8;
+}
+
+.text-pink {
+  color: #EC4899;
+}

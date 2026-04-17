@@ -43,9 +43,9 @@ function RecommendFontButton({
             ?? document.querySelector('.bottom-fixed');
           if (!scrollContainer || !bottomNav) return;
 
-          const pickerBottom  = pickerRef.current.getBoundingClientRect().bottom;
-          const navTop        = bottomNav.getBoundingClientRect().top;
-          const overlap       = pickerBottom - navTop + 12; // 12px 여유
+          const pickerBottom = pickerRef.current.getBoundingClientRect().bottom;
+          const navTop = bottomNav.getBoundingClientRect().top;
+          const overlap = pickerBottom - navTop + 12; // 12px 여유
 
           if (overlap > 0) {
             scrollContainer.scrollBy({ top: overlap, behavior: 'smooth' });
@@ -368,7 +368,7 @@ function App() {
 
                 <p className="tip-text" style={{ marginTop: '4px' }}>
                   {language === 'kor'
-                    ? '💡 성만 입력(예: 김, 이)하거나 \'성+이름\'을 모두 넣으면 밸런스가 좋습니다.'
+                    ? '💡 성만 입력(예: 김, 이)하거나 이름(예 : 철수)만 넣으면 밸런스가 좋습니다.'
                     : '💡 성(예: Lee, Kim) 위주로 입력하시거나 짧은 닉네임을 사용하면 가장 예쁘게 완성됩니다.'}
                 </p>
               </div>
